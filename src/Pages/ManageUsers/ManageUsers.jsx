@@ -26,8 +26,9 @@ function ManageUsers() {
             <UserList
                 list={users}
             >               
-                {item => (
-                    <UserListItem 
+                {(item) => (
+                    <UserListItem
+                        key={item.id} 
                         id={item.id}
                         name={item.name}
                         lastName={item.last_name}

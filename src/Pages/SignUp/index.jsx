@@ -1,4 +1,4 @@
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useContext, useRef } from 'react'
 import { ShoppingCartContext } from '../../Context'
 import { toast } from 'react-toastify'
@@ -38,14 +38,23 @@ function SignUp() {
                     theme: "light",
                 });
             } else {
-                console.log("algo fallo pa");
+                toast.warning("No se pudo crear tu cuenta :(", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             }
         });
         // Create account
         localStorage.setItem('account', JSON.stringify(data));
         context.setAccount(data);
         // Sign In
-        return <Navigate replace to={'/sign-in'} />
+        //return <Navigate replace to={'/sign-in'} />
 	}
 
   return (
@@ -100,7 +109,7 @@ function SignUp() {
                     placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
                 />
             </div>
-            <Link to="/">
+            <Link to="/sign-in">
                 <button
                     className='bg-black text-white w-full rounded-lg py-3 mt-1'
                     onClick={() => createAnAccount()}>

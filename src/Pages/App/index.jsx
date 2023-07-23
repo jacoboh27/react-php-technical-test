@@ -1,8 +1,9 @@
+import './App.css'
+import "react-toastify/dist/ReactToastify.css";
 import { useContext } from 'react'
 import { useRoutes, BrowserRouter, Navigate } from 'react-router-dom'
 import { ShoppingCartProvider, ShoppingCartContext } from '../../Context'
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Home from '../Home'
 import MyAccount from '../MyAccount'
 import MyOrder from '../MyOrder'
@@ -13,7 +14,7 @@ import SignUp from '../SignUp'
 import Navbar from '../../Components/Navbar'
 import CheckoutSideMenu from '../../Components/CheckoutSideMenu'
 import { ManageUsers } from '../ManageUsers/ManageUsers';
-import './App.css'
+import { EditUser } from '../ManageUsers/EditUser';
 
 const AppRoutes = () => {
   const context = useContext(ShoppingCartContext);
@@ -42,6 +43,7 @@ const AppRoutes = () => {
     { path: '/sign-in', element: <SignIn/> },
     { path: '/sign-up', element: <SignUp/> },
     { path: '/manage-users', element: <ManageUsers/> },
+    { path: '/manage-users/:id/edit', element: <EditUser/> },
     { path: '/*', element: <NotFound/> },
   ])
 

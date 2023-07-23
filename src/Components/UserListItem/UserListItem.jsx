@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { TrashIcon } from '@heroicons/react/24/solid';
 
@@ -23,13 +25,25 @@ const UserListItem = ({id, name, lastName, email, phoneNumber, address, createdA
                 {createdAt}
             </td>
             <td className="px-6 py-4">
-                <PencilSquareIcon className='h-6 w-6 cursor-pointer' />
+            <Link to={`${id}/edit`}>
+                <PencilSquareIcon className='h-6 w-6 cursor-pointer hover:fill-orange-500' />
+            </Link>
             </td>
             <td className="px-6 py-4">
-                <TrashIcon className='h-6 w-6 cursor-pointer' />
+                <TrashIcon className='h-6 w-6 cursor-pointer hover:fill-red-500' />
             </td>
         </tr>
     );
 }
+
+UserListItem.propTypes = {
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    phoneNumber: PropTypes.string, 
+    address: PropTypes.string,
+    createdAt: PropTypes.string
+};
 
 export {UserListItem};
