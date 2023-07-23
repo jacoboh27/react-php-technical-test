@@ -10,7 +10,7 @@ const ProductDetail = () => {
         <aside 
             className={`${context.detailOpen ? 'flex' : 'hidden'} product-detail flex-col fixed right-0 border border-black rounded-lg bg-white`}>
             <div className='flex justify-between items-center p-6'>
-                <h2 className='font-medium text-xl'>Detail</h2>
+                <h2 className='font-medium text-xl'>Detalle</h2>
                 <div 
                     onClick={() => context.closeProductDetail()}
                     className='cursor-pointer'

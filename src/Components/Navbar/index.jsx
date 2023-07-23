@@ -1,4 +1,3 @@
-import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { ShoppingCartContext } from "../../Context";

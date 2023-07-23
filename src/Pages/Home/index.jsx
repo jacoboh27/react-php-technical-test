@@ -16,7 +16,7 @@ function Home() {
       )
     } else {
       return (
-        <div>We don't have anything :(</div>
+        <div>No se encontraron resultados</div>
       )
     }
   }
@@ -24,11 +24,11 @@ function Home() {
   return (
       <Layout className='bg-red-100'>
         <div className="relative flex justify-center w-80 items-center mb-4">
-            <h1 className='font-medium text-2xl'>Exclusive Products</h1>
+            <h1 className='font-medium text-2xl'>Productos</h1>
         </div>
         <input
           type="text"
-          placeholder='Search a product'
+          placeholder='Buscar un producto'
           className='rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none'
           onChange={(event) => context.setSearchByTitle(event.target.value)} 
         />

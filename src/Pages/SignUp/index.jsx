@@ -1,6 +1,7 @@
 import { Link, Navigate } from 'react-router-dom'
 import { useContext, useRef } from 'react'
 import { ShoppingCartContext } from '../../Context'
+import { toast } from 'react-toastify'
 import axios from 'axios'
 import Layout from '../../Components/Layout'
 
@@ -26,7 +27,16 @@ function SignUp() {
 		}
         axios.post('http://localhost:80/api/user/save', data).then(function(response){
             if (response.data.status == 1) {
-                console.log("exitoo");
+                toast.success("¡Tu cuenta se ha creado con éxito, ahora puedes iniciar sesión!", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             } else {
                 console.log("algo fallo pa");
             }

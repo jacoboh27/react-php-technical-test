@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 import { useRoutes, BrowserRouter, Navigate } from 'react-router-dom'
 import { ShoppingCartProvider, ShoppingCartContext } from '../../Context'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from '../Home'
 import MyAccount from '../MyAccount'
 import MyOrder from '../MyOrder'
@@ -48,6 +50,7 @@ const App = () => {
   return (
     <ShoppingCartProvider>
       <BrowserRouter>
+        <ToastContainer />
         <AppRoutes />
         <Navbar />
         <CheckoutSideMenu />
