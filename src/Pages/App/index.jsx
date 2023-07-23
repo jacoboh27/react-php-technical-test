@@ -12,6 +12,7 @@ import SignIn from '../SignIn'
 import SignUp from '../SignUp'
 import Navbar from '../../Components/Navbar'
 import CheckoutSideMenu from '../../Components/CheckoutSideMenu'
+import { ManageUsers } from '../ManageUsers/ManageUsers';
 import './App.css'
 
 const AppRoutes = () => {
@@ -40,6 +41,7 @@ const AppRoutes = () => {
     { path: '/my-orders/:id', element: <MyOrder/> },
     { path: '/sign-in', element: <SignIn/> },
     { path: '/sign-up', element: <SignUp/> },
+    { path: '/manage-users', element: <ManageUsers/> },
     { path: '/*', element: <NotFound/> },
   ])
 
