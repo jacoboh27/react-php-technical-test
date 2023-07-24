@@ -1,21 +1,12 @@
-import { Link } from 'react-router-dom'
-import { useContext, useRef } from 'react'
-import { ShoppingCartContext } from '../../Context'
+import { Link, useNavigate } from 'react-router-dom'
+import { useRef } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import Layout from '../../Components/Layout'
 
 function SignUp() {
-    const context = useContext(ShoppingCartContext);
-    //const [view, setView] = useState('user-info');
     const form = useRef(null);
-
-    // Account
-    const parsedAccount = JSON.parse(localStorage.getItem('account'));
-    // Has an account
-    //const noAccountInLocalStorage = parsedAccount ? Object.keys(parsedAccount).length === 0 : true;
-    //const noAccountInLocalState = context.account ? Object.keys(context.account).length === 0 : true;
-    //const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState;
+    const navigateTo = useNavigate();
 
     const createAnAccount = () => {
 		const formData = new FormData(form.current);
@@ -25,50 +16,48 @@ function SignUp() {
 			email: formData.get('email'),
 			password: formData.get('password')
 		}
-        axios.post('http://localhost:80/api/user/save', data).then(function(response){
-            if (response.data.status == 1) {
-                toast.success("¡Tu cuenta se ha creado con éxito, ahora puedes iniciar sesión!", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-            } else {
-                toast.warning("No se pudo crear tu cuenta :(", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-            }
-        });
-        // Create account
-        localStorage.setItem('account', JSON.stringify(data));
-        context.setAccount(data);
-        // Sign In
-        //return <Navigate replace to={'/sign-in'} />
+        if (data.name !== '' && data.lastName !== '' && data.email !== '' && data.password !== '') {
+            axios.post('http://localhost:80/api/user/save', data).then(function(response){
+                if (response.data.status == 1) {
+                    toast.success("¡Tu cuenta se ha creado con éxito, ahora puedes iniciar sesión!", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                } else {
+                    toast.warning("No se pudo crear tu cuenta :(", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+            });            
+            navigateTo("/sign-in");
+        }
 	}
 
   return (
     <Layout>
         <h1 className="font-medium text-xl text-center mb-6 w-80">Crea tu cuenta</h1>
-        <form ref={form} className='flex flex-col gap-4 w-80'>
+        <form onSubmit={createAnAccount} ref={form} method="post" className='flex flex-col gap-4 w-80'>
             <div className='flex flex-col gap-1'>
-                <label htmlFor="name" className='font-light text-sm'>Nombre:</label>
+                <label htmlFor="name" className='font-light text-sm'>Nombre(s):</label>
                 <input
                     type="text"
                     id="name"
                     name="name"
-                    defaultValue={parsedAccount?.name}
                     placeholder="Carlos"
+                    required
                     className='rounded-lg border border-black placeholder:font-light
                     placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
                 />
@@ -79,8 +68,8 @@ function SignUp() {
                     type="text"
                     id="last-name"
                     name="last-name"
-                    defaultValue={parsedAccount?.name}
                     placeholder="Henao"
+                    required
                     className='rounded-lg border border-black placeholder:font-light
                     placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
                 />
@@ -91,8 +80,8 @@ function SignUp() {
                     type="text"
                     id="email"
                     name="email"
-                    defaultValue={parsedAccount?.email}
                     placeholder="carloshenao@gmail.com"
+                    required
                     className='rounded-lg border border-black
                     placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
                 />
@@ -103,20 +92,29 @@ function SignUp() {
                     type="text"
                     id="password"
                     name="password"
-                    defaultValue={parsedAccount?.password}
-                    placeholder="******"
+                    placeholder="********"
+                    required
                     className='rounded-lg border border-black
                     placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
                 />
             </div>
-            <Link to="/sign-in">
-                <button
-                    className='bg-black text-white w-full rounded-lg py-3 mt-1'
-                    onClick={() => createAnAccount()}>
-                    Crear
-                </button>
-            </Link>
+            <button
+                type="submit"
+                className='bg-black text-white w-full rounded-lg py-3 mt-1'>
+                Crear cuenta
+            </button>
         </form>
+
+        <div className='flex flex-col w-80'>
+            <p className='text-center font-light text-xs mt-10'>¿Ya tienes una cuenta?</p>
+            <Link to='/sign-in'>
+            <button
+                className='w-full border border-black disabled:text-black/40 disabled:border-black/40 rounded-lg mt-2 py-3'
+            >
+                Iniciar sesión
+            </button>
+            </Link>
+        </div>
     </Layout>
   )
 }
