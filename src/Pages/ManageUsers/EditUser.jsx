@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import axios from "axios";
 import Layout from '../../Components/Layout';
 
-
 function EditUser() {
     const form = useRef(null);
 
@@ -17,7 +16,6 @@ function EditUser() {
 
     function getUser() {
         axios.get(`http://localhost:80/api/user/${id}`).then(function(response) {
-            console.log(response.data);
             setInputs(response.data);
         });
     }
