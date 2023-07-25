@@ -17,7 +17,7 @@ function SignUp() {
 			password: formData.get('password')
 		}
         if (data.name !== '' && data.lastName !== '' && data.email !== '' && data.password !== '') {
-            axios.post('http://localhost:80/api/user/save', data).then(function(response){
+            axios.post(`${import.meta.env.VITE_API_URL}/user/save`, data).then(function(response){
                 if (response.data.status == 1) {
                     toast.success("¡Tu cuenta se ha creado con éxito, ahora puedes iniciar sesión!", {
                         position: "top-right",

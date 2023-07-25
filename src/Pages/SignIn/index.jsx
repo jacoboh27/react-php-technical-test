@@ -20,7 +20,7 @@ function SignIn() {
 			password: formData.get('password')
 		}
     if (data.email !== '' && data.password !== '') {
-      axios.post('http://localhost:80/api/user/validate', data).then(function(response){
+      axios.post(`${import.meta.env.VITE_API_URL}/user/validate`, data).then(function(response){
         if (response.data.status == 1) {
           localStorage.setItem('account', JSON.stringify(data));
           context.setAccount({email: data.email});

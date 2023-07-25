@@ -14,7 +14,7 @@ function ManageUsers() {
     }, []);
 
     function getUsers() {
-        axios.get('http://localhost:80/api/users/').then(function(response) {
+        axios.get(`${import.meta.env.VITE_API_URL}/users/`).then(function(response) {
             setUsers(response.data);
         });
     }
@@ -29,7 +29,7 @@ function ManageUsers() {
         })
         .then((willDelete) => {
             if (willDelete) {
-                axios.delete(`http://localhost:80/api/user/${id}/delete`).then(function(response){
+                axios.delete(`${import.meta.env.VITE_API_URL}/user/${id}/delete`).then(function(response){
                     if (response.data.status == 1) {
                         toast.success("¡El usuario se ha eliminado con éxito!", {
                             position: "top-right",

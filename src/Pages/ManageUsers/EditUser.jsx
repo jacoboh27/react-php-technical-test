@@ -15,7 +15,7 @@ function EditUser() {
     }, []);
 
     function getUser() {
-        axios.get(`http://localhost:80/api/user/${id}`).then(function(response) {
+        axios.get(`${import.meta.env.VITE_API_URL}/user/${id}`).then(function(response) {
             setInputs(response.data);
         });
     }
@@ -30,7 +30,7 @@ function EditUser() {
 			phoneNumber: formData.get('phone-number'),
 			address: formData.get('address'),
 		}
-        axios.put(`http://localhost:80/api/user/${id}/edit`, data).then(function(response){
+        axios.put(`${import.meta.env.VITE_API_URL}/user/${id}/edit`, data).then(function(response){
             if (response.data.status == 1) {
                 toast.success("¡Los datos del usuario se han editado con éxito!", {
                     position: "top-right",
