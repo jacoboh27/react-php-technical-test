@@ -1,14 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { ShoppingCartContext } from '../../Context'
 import Layout from '../../Components/Layout'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 
 function SignIn() {
   const form = useRef(null);
   const navigateTo = useNavigate();
+  const [showPassword, setShowPassword ] = useState(false);
 
   const context = useContext(ShoppingCartContext);
 
@@ -19,26 +20,24 @@ function SignIn() {
 			email: formData.get('email'),
 			password: formData.get('password')
 		}
-    if (data.email !== '' && data.password !== '') {
-      axios.post(`${import.meta.env.VITE_API_URL}/user/validate`, data).then(function(response){
-        if (response.data.status == 1) {
-          localStorage.setItem('account', JSON.stringify(data));
-          context.setAccount({email: data.email});
-          navigateTo("/");
-        } else {
-          toast.error("Correo o contraseña incorrecta :( ¡Valida los datos!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
-      });
-    }
+    axios.post(`${import.meta.env.VITE_API_URL}/user/validate`, data).then(function(response){
+      if (response.data.status == 1) {
+        localStorage.setItem('account', JSON.stringify(data));
+        context.setAccount({email: data.email});
+        navigateTo("/");
+      } else {
+        toast.error("Correo o contraseña incorrecta :( ¡Valida los datos!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    });
     localStorage.setItem('sign-out', JSON.stringify(false));
     context.setSignOut(false);
   }
@@ -59,16 +58,23 @@ function SignIn() {
                   placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
               />
           </div>
-          <div className='flex flex-col gap-1'>
+          <div className='relative flex flex-col gap-1'>
               <label htmlFor="password" className='font-light text-sm'>Contraseña:</label>
               <input
-                  type="text"
+                  type={ showPassword ? "text" : "password" }
                   id="password"
                   name="password"
                   required
                   className='rounded-lg border border-black placeholder:font-light placeholder:text-sm
                   placeholder:text-black/60 focus:outline-none py-2 px-4'
               />
+              <div className='absolute cursor-pointer bottom-2 right-3' onClick={() => setShowPassword(!showPassword)}>
+                { showPassword ? 
+                  <EyeIcon className='h-6 w-6'  stroke="currentColor"/>
+                 : 
+                  <EyeSlashIcon className='h-6 w-6'   stroke="currentColor"/>
+                }
+              </div>
           </div>
           <button
             type="submit"

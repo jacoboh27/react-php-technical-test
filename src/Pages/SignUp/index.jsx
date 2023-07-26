@@ -1,22 +1,27 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import Layout from '../../Components/Layout'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 
 function SignUp() {
     const form = useRef(null);
     const navigateTo = useNavigate();
+    const [showPassword, setShowPassword ] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword ] = useState(false);
 
-    const createAnAccount = () => {
-		const formData = new FormData(form.current);
-		const data = {
-			name: formData.get('name'),
-			lastName: formData.get('last-name'),
-			email: formData.get('email'),
-			password: formData.get('password')
-		}
-        if (data.name !== '' && data.lastName !== '' && data.email !== '' && data.password !== '') {
+    const createAnAccount = (e) => {
+        e.preventDefault();
+        const formData = new FormData(form.current);
+        const data = {
+            name: formData.get('name'),
+            lastName: formData.get('last-name'),
+            email: formData.get('email'),
+            password: formData.get('password'),
+            confirmPassword: formData.get('confirmPassword')
+        }
+        if (data.confirmPassword == data.password) {
             axios.post(`${import.meta.env.VITE_API_URL}/user/save`, data).then(function(response){
                 if (response.data.status == 1) {
                     toast.success("¡Tu cuenta se ha creado con éxito, ahora puedes iniciar sesión!", {
@@ -43,6 +48,17 @@ function SignUp() {
                 }
             });            
             navigateTo("/sign-in");
+        } else {
+            toast.error("Las contraseñas no coinciden :(", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
 	}
 
@@ -56,7 +72,6 @@ function SignUp() {
                     type="text"
                     id="name"
                     name="name"
-                    placeholder="Carlos"
                     required
                     className='rounded-lg border border-black placeholder:font-light
                     placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
@@ -68,7 +83,6 @@ function SignUp() {
                     type="text"
                     id="last-name"
                     name="last-name"
-                    placeholder="Henao"
                     required
                     className='rounded-lg border border-black placeholder:font-light
                     placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
@@ -80,23 +94,46 @@ function SignUp() {
                     type="text"
                     id="email"
                     name="email"
-                    placeholder="carloshenao@gmail.com"
                     required
                     className='rounded-lg border border-black
                     placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
                 />
             </div>
-            <div className='flex flex-col gap-1'>
+            <div className='relative flex flex-col gap-1'>
                 <label htmlFor="password" className='font-light text-sm'>Contraseña:</label>
                 <input
-                    type="text"
+                    type={ showPassword ? "text" : "password" }
                     id="password"
                     name="password"
-                    placeholder="********"
                     required
                     className='rounded-lg border border-black
                     placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
                 />
+                <div className='absolute cursor-pointer bottom-2 right-3' onClick={() => setShowPassword(!showPassword)}>
+                    { showPassword ? 
+                    <EyeIcon className='h-6 w-6'  stroke="currentColor"/>
+                    : 
+                    <EyeSlashIcon className='h-6 w-6'   stroke="currentColor"/>
+                    }
+                </div>
+            </div>
+            <div className='relative flex flex-col gap-1'>
+                <label htmlFor="confirmPassword" className='font-light text-sm'>Confirmar contraseña:</label>
+                <input
+                    type={ showConfirmPassword ? "text" : "password" }
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    required
+                    className='rounded-lg border border-black
+                    placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
+                />
+                <div className='absolute cursor-pointer bottom-2 right-3' onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                    { showConfirmPassword ? 
+                    <EyeIcon className='h-6 w-6'  stroke="currentColor"/>
+                    : 
+                    <EyeSlashIcon className='h-6 w-6'   stroke="currentColor"/>
+                    }
+                </div>
             </div>
             <button
                 type="submit"
