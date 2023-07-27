@@ -25,8 +25,19 @@ function SignIn() {
         localStorage.setItem('account', JSON.stringify(data));
         context.setAccount({email: data.email});
         navigateTo("/");
+      } else if (response.data.status == 0) {
+        toast.error("¡Este correo no está asociado con ninguna cuenta existente!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       } else {
-        toast.error("Correo o contraseña incorrecta :( ¡Valida los datos!", {
+        toast.error("Contraseña incorrecta :(", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,

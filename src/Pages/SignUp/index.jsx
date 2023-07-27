@@ -23,7 +23,18 @@ function SignUp() {
         }
         if (data.confirmPassword == data.password) {
             axios.post(`${import.meta.env.VITE_API_URL}/user/save`, data).then(function(response){
-                if (response.data.status == 1) {
+                if (response.data.status == 2) {
+                    toast.warning("¡Este correo ya está asociado a una cuenta existente!", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                } else if (response.data.status == 1) {
                     toast.success("¡Tu cuenta se ha creado con éxito, ahora puedes iniciar sesión!", {
                         position: "top-right",
                         autoClose: 5000,
@@ -34,8 +45,9 @@ function SignUp() {
                         progress: undefined,
                         theme: "light",
                     });
+                    navigateTo("/sign-in");
                 } else {
-                    toast.warning("No se pudo crear tu cuenta :(", {
+                    toast.error("No se pudo crear tu cuenta :(", {
                         position: "top-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -47,7 +59,6 @@ function SignUp() {
                     });
                 }
             });            
-            navigateTo("/sign-in");
         } else {
             toast.error("Las contraseñas no coinciden :(", {
                 position: "top-right",
