@@ -10,6 +10,10 @@ function MyAccount() {
   const account = localStorage.getItem('account');
   const parsedAccount = JSON.parse(account);
   const form = useRef(null);
+  var buttonText = "Completar";
+  if (parsedAccount.phoneNumber && parsedAccount.address) {
+    buttonText = "Editar";
+  }
 
   const editAccount = () => {
     const id = parsedAccount.id;
@@ -79,7 +83,7 @@ function MyAccount() {
         <button
           className='border border-black rounded-lg mt-6 py-3'
           onClick={() => setView('edit-user-info')}>
-          Editar
+          { buttonText }
         </button>
       </div>
     )
