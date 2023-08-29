@@ -22,8 +22,17 @@ function SignIn() {
 		}
     axios.post(`${import.meta.env.VITE_API_URL}/user/validate`, data).then(function(response){
       if (response.data.status == 1) {
-        localStorage.setItem('account', JSON.stringify(data));
-        context.setAccount({email: data.email});
+        const userInfo = {
+          id: response.data.info_user['id'],
+          name: response.data.info_user['name'],
+          lastName: response.data.info_user['last_name'],
+          email: response.data.info_user['email'],
+          phoneNumber: response.data.info_user['phone_number'],
+          address: response.data.info_user['address'],
+        }
+        context.setSignOut(false);
+        localStorage.setItem('sign-out', JSON.stringify(false));
+        localStorage.setItem('account', JSON.stringify(userInfo));
         navigateTo("/");
       } else if (response.data.status == 0) {
         toast.error("¡Este correo no está asociado con ninguna cuenta existente!", {
@@ -49,8 +58,6 @@ function SignIn() {
         });
       }
     });
-    localStorage.setItem('sign-out', JSON.stringify(false));
-    context.setSignOut(false);
   }
 
   return (

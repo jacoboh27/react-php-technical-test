@@ -61,14 +61,15 @@ switch($method) {
             $email = $user->email;
             $password = $user->password;
 
-            $sql = "SELECT password FROM users WHERE email = '$email'";
+            $sql = "SELECT id, name, last_name, email, phone_number, address, password FROM users WHERE email = '$email'";
             $stmt = $conn->prepare($sql);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if($user) {
                 if (password_verify($password, $user['password'])) {
-                    $response = ['status' => 1, 'message' => 'Login successful.'];
+                    unset($user['password']);
+                    $response = ['info_user' => $user, 'status' => 1, 'message' => 'Login successful.'];
                 } else {
                     $response = ['status' => 2, 'message' => 'Invalid password.'];
                 }
